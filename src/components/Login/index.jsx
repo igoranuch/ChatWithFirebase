@@ -14,14 +14,14 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { AuthContext } from "../../context/AuthContext";
+import { useUser } from "reactfire";
 
 const Login = () => {
   const styles = useStyles();
 
   const { setAlert } = useContext(UIContext);
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
 
   const navigate = useNavigate();
 

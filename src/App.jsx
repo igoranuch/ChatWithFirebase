@@ -1,56 +1,28 @@
-import React, { useContext } from "react";
-import ChatPage from "./pages/ChatPage";
+import React from "react";
+import Root from "./components/Root";
+import { BrowserRouter } from "react-router-dom";
+import { getFirestore } from "firebase/firestore";
+import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
+import { ChatContextProvider } from "./context/ChatContext";
+import { UIContextProvider } from "./context/UIContext";
+import { auth } from "./firebase";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthContext } from "./context/AuthContext";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import Header from "./components/Header";
+
 function App() {
-  const { currentUser } = useContext(AuthContext);
-
-  const ProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to="/login" />;
-    }
-
-    return children;
-  };
+  const firestoreInstance = getFirestore(useFirebaseApp());
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Header />
-                <ChatPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <>
-                <Header />
-                <Login />
-              </>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <>
-                <Header />
-                <SignUp />
-              </>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <FirestoreProvider sdk={firestoreInstance}>
+      <AuthProvider sdk={auth}>
+        <ChatContextProvider>
+          <UIContextProvider>
+            <BrowserRouter>
+              <Root />
+            </BrowserRouter>
+          </UIContextProvider>
+        </ChatContextProvider>
+      </AuthProvider>
+    </FirestoreProvider>
   );
 }
 

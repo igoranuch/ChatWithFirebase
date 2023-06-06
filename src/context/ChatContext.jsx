@@ -1,10 +1,10 @@
-import { createContext, useContext, useReducer } from "react";
-import { AuthContext } from "./AuthContext";
+import { createContext, useReducer } from "react";
+import { useUser } from "reactfire";
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
 
   const INITIAL_STATE = {
     chatId: "null",

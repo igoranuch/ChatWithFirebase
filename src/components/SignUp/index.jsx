@@ -9,12 +9,12 @@ import { UIContext } from "../../context/UIContext";
 import { auth, db } from "../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { AuthContext } from "../../context/AuthContext";
+import { useUser } from "reactfire";
 
 const SignUp = () => {
   const { setAlert } = useContext(UIContext);
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
 
   const styles = useStyles();
 

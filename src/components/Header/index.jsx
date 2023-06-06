@@ -10,16 +10,18 @@ import {
 import { ReactComponent as AppLogo } from "../../assets/images/icons8-chat.svg";
 import { HOME_ROUTE } from "../../utils/constants";
 import useStyles from "../styles";
-import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { auth } from "../../firebase";
 import { Link } from "react-router-dom";
+import { useUser } from "reactfire";
 
 const Header = () => {
   const styles = useStyles();
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
+
   const { dispatch } = useContext(ChatContext);
+  console.log(currentUser);
 
   const signOut = () => {
     auth.signOut();
@@ -54,7 +56,7 @@ const Header = () => {
                 className={styles.userImage}
                 src={currentUser?.photoURL}
               />
-              <Typography>{currentUser?.displayName}</Typography>
+              <Typography>{currentUser.displayName}</Typography>
               <Button onClick={signOut} variant="contained">
                 Вийти
               </Button>

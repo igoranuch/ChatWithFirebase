@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "chat-react-f5b0a.firebaseapp.com",
   projectId: "chat-react-f5b0a",
@@ -13,7 +13,6 @@ const firebaseConfig = {
   measurementId: "G-NVGGGL3B1S",
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);

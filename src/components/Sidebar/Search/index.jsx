@@ -11,19 +11,19 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { AuthContext } from "../../../context/AuthContext";
 import { Avatar, Box, IconButton, TextField, Typography } from "@mui/material";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "../../styles";
 import { ChatContext } from "../../../context/ChatContext";
 import { UIContext } from "../../../context/UIContext";
+import { useUser } from "reactfire";
 
 const Search = () => {
   const styles = useStyles();
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
   const { dispatch } = useContext(ChatContext);
   const { setAlert } = useContext(UIContext);
 
@@ -57,8 +57,6 @@ const Search = () => {
   };
 
   const handleSelect = async () => {
-    //check whether the group(chats in firestore) exists, if not create
-
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid

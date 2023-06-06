@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Avatar, Box, Link, Typography } from "@mui/material";
 import useStyles from "../../styles";
-import { AuthContext } from "../../../context/AuthContext";
+import { useUser } from "reactfire";
 
 const Message = ({ message, isFirstMessageFromAuthor }) => {
   const styles = useStyles();
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
 
   const messageTime =
     message.date &&

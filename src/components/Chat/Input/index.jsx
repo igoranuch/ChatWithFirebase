@@ -2,7 +2,6 @@ import { Box, Button, TextField } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ChatContext } from "../../../context/ChatContext";
 import SendIcon from "@material-ui/icons/Send";
-import { AuthContext } from "../../../context/AuthContext";
 import {
   Timestamp,
   arrayUnion,
@@ -12,13 +11,14 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { v4 as uuid } from "uuid";
+import { useUser } from "reactfire";
 
 const Input = () => {
   const [text, setText] = useState("");
 
   const { data } = useContext(ChatContext);
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
 
   const handleSend = async () => {
     if (text !== "") {

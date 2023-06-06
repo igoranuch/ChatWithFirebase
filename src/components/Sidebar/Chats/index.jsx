@@ -1,19 +1,19 @@
 import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../context/AuthContext";
 import { db } from "../../../firebase";
 import { Box, Divider, Typography } from "@mui/material";
 import ChatsItem from "./ChatsItem";
 import { ChatContext } from "../../../context/ChatContext";
 import useStyles from "../../styles";
+import { useUser } from "reactfire";
 
 const Chats = () => {
   const styles = useStyles();
   const [chats, setChats] = useState({});
-
   const [selectedChat, setSelectedChat] = useState(null);
 
-  const { currentUser } = useContext(AuthContext);
+  const { data: currentUser } = useUser();
+
   const { searchUser } = useContext(ChatContext);
 
   useEffect(() => {
