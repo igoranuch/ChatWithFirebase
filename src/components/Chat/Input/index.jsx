@@ -5,13 +5,15 @@ import SendIcon from "@material-ui/icons/Send";
 import {
   Timestamp,
   arrayUnion,
+  collection,
   doc,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { v4 as uuid } from "uuid";
-import { useUser } from "reactfire";
+import { useFirestoreCollectionData, useUser } from "reactfire";
+import { encryptMessage } from "../../../utils/functions";
 
 const Input = () => {
   const [text, setText] = useState("");
@@ -20,12 +22,19 @@ const Input = () => {
 
   const { data: currentUser } = useUser();
 
+  const collectionRef = collection(db, "chats");
+  const { data: chatsCollection } = useFirestoreCollectionData(collectionRef);
+
   const handleSend = async () => {
-    if (text !== "") {
+    if (text !== "" && chatsCollection) {
+      const [{ encryptionKey }] = chatsCollection;
+
+      const encryptedMessage = encryptMessage(text, encryptionKey);
+
       await updateDoc(doc(db, "chats", data.chatId), {
         messages: arrayUnion({
           id: uuid(),
-          text,
+          text: encryptedMessage,
           senderId: currentUser.uid,
           date: Timestamp.now(),
           photoURL: currentUser.photoURL,
@@ -34,14 +43,14 @@ const Input = () => {
 
       await updateDoc(doc(db, "userChats", currentUser.uid), {
         [data.chatId + ".lastMessage"]: {
-          text,
+          text: encryptedMessage,
         },
         [data.chatId + ".date"]: serverTimestamp(),
       });
 
       await updateDoc(doc(db, "userChats", data.user.uid), {
         [data.chatId + ".lastMessage"]: {
-          text,
+          text: encryptedMessage,
         },
         [data.chatId + ".date"]: serverTimestamp(),
       });

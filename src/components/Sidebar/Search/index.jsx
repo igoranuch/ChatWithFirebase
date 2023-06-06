@@ -17,6 +17,7 @@ import useStyles from "../../styles";
 import { ChatContext } from "../../../context/ChatContext";
 import { UIContext } from "../../../context/UIContext";
 import { useUser } from "reactfire";
+import { generateRandomKey } from "../../../utils/functions";
 
 const Search = () => {
   const styles = useStyles();
@@ -62,10 +63,15 @@ const Search = () => {
         ? currentUser.uid + user.uid
         : user.uid + currentUser.uid;
 
+    const encryptionKey = generateRandomKey();
+
     const res = await getDoc(doc(db, "chats", combinedId));
 
     if (!res.exists()) {
-      await setDoc(doc(db, "chats", combinedId), { messages: [] });
+      await setDoc(doc(db, "chats", combinedId), {
+        messages: [],
+        encryptionKey,
+      });
 
       await updateDoc(doc(db, "userChats", currentUser.uid), {
         [combinedId + ".userInfo"]: {

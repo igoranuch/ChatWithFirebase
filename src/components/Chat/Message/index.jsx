@@ -1,7 +1,10 @@
 import React from "react";
 import { Avatar, Box, Link, Typography } from "@mui/material";
 import useStyles from "../../styles";
-import { useUser } from "reactfire";
+import { useFirestoreCollectionData, useUser } from "reactfire";
+import { collection } from "firebase/firestore";
+import { db } from "../../../firebase";
+import { decryptMessage } from "../../../utils/functions";
 
 const Message = ({ message, isFirstMessageFromAuthor }) => {
   const styles = useStyles();
@@ -15,9 +18,15 @@ const Message = ({ message, isFirstMessageFromAuthor }) => {
       minute: "2-digit",
     });
 
+  const collectionRef = collection(db, "chats");
+  const { data: chatsCollection } = useFirestoreCollectionData(collectionRef);
+  const [{ encryptionKey }] = chatsCollection;
+
   const parseMessageText = (text) => {
+    const decryptedText = decryptMessage(text, encryptionKey);
+
     const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.split(urlRegex).map((word, i) => {
+    return decryptedText.split(urlRegex).map((word, i) => {
       if (word.match(urlRegex)) {
         return (
           <Link
@@ -68,7 +77,11 @@ const Message = ({ message, isFirstMessageFromAuthor }) => {
         display="flex"
         flexDirection="column"
         gap="4px"
-        backgroundColor="rgba(22,104,196,0.9)"
+        backgroundColor={`${
+          message.senderId === currentUser.uid
+            ? "rgba(22, 104, 196, 0.75)"
+            : "rgba(22, 104, 196, 1)"
+        }`}
         paddingY="8px"
         paddingX="8px"
         borderRadius="10px"

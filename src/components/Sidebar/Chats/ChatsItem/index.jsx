@@ -2,6 +2,10 @@ import React, { useContext } from "react";
 import { ChatContext } from "../../../../context/ChatContext";
 import { Avatar, Box, Typography } from "@mui/material";
 import useStyles from "../../../styles";
+import { decryptMessage } from "../../../../utils/functions";
+import { collection } from "firebase/firestore";
+import { db } from "../../../../firebase";
+import { useFirestoreCollectionData } from "reactfire";
 
 const ChatsItem = ({ chat, selectedChat, setSelectedChat }) => {
   const styles = useStyles();
@@ -25,6 +29,9 @@ const ChatsItem = ({ chat, selectedChat, setSelectedChat }) => {
       minute: "2-digit",
     });
 
+  const collectionRef = collection(db, "chats");
+  const { data: chatsCollection } = useFirestoreCollectionData(collectionRef);
+
   return (
     <Box
       display="flex"
@@ -47,9 +54,14 @@ const ChatsItem = ({ chat, selectedChat, setSelectedChat }) => {
         <Typography className={styles.infoText} variant="h5">
           {chat[1].userInfo.displayName}
         </Typography>
-        <Typography className={styles.infoText}>
-          {chat[1].lastMessage?.text}
-        </Typography>
+        {chat[1].lastMessage && (
+          <Typography className={styles.infoText}>
+            {decryptMessage(
+              chat[1].lastMessage.text,
+              chatsCollection[0].encryptionKey
+            )}
+          </Typography>
+        )}
       </Box>
       <Typography>{messageTime}</Typography>
     </Box>

@@ -9,7 +9,7 @@ import { useUser } from "reactfire";
 
 const Chats = () => {
   const styles = useStyles();
-  const [chats, setChats] = useState({});
+  const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
 
   const { data: currentUser } = useUser();
@@ -19,7 +19,10 @@ const Chats = () => {
   useEffect(() => {
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        setChats(doc.data());
+        const data = Object.entries(doc.data());
+        data.sort((a, b) => b[1].date - a[1].date);
+
+        setChats(data);
       });
 
       return () => {
@@ -49,17 +52,15 @@ const Chats = () => {
         gap="8px"
         maxHeight={`${searchUser ? "678px" : "750px"}`}
       >
-        {!!chats &&
-          Object.entries(chats)
-            ?.sort((a, b) => b[1].date - a[1].date)
-            .map((chat, index) => (
-              <ChatsItem
-                chat={chat}
-                setSelectedChat={setSelectedChat}
-                selectedChat={selectedChat}
-                key={index}
-              />
-            ))}
+        {chats &&
+          chats.map((chat) => (
+            <ChatsItem
+              chat={chat}
+              setSelectedChat={setSelectedChat}
+              selectedChat={selectedChat}
+              key={chat[1].userInfo.uid}
+            />
+          ))}
       </Box>
     </>
   );

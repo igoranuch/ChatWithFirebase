@@ -21,7 +21,6 @@ const Header = () => {
   const { data: currentUser } = useUser();
 
   const { dispatch } = useContext(ChatContext);
-  console.log(currentUser);
 
   const signOut = () => {
     auth.signOut();
