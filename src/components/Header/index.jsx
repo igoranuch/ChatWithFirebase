@@ -43,7 +43,7 @@ const Header = () => {
           </Link>
         </Box>
         <Box sx={{ display: "flex", flexGrow: 1, justifyContent: "flex-end" }}>
-          {currentUser && !!Object.entries(currentUser).length && (
+          {currentUser && (
             <Box
               display="flex"
               justifyContent="center"

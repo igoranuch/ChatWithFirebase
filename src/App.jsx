@@ -21,35 +21,33 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <Header />
-                  <ChatPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="login"
-              element={
-                <>
-                  <Header />
-                  <Login />
-                </>
-              }
-            />
-            <Route
-              path="register"
-              element={
-                <>
-                  <Header />
-                  <SignUp />
-                </>
-              }
-            />
-          </Route>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Header />
+                <ChatPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Header />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <Header />
+                <SignUp />
+              </>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

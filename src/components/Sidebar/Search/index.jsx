@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   collection,
   query,
@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { AuthContext } from "../../../context/AuthContext";
-import { Avatar, Box, TextField, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, TextField, Typography } from "@mui/material";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "../../styles";
 import { ChatContext } from "../../../context/ChatContext";
@@ -93,6 +93,14 @@ const Search = () => {
     setUser(null);
     setUsername("");
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "SET_SEARCH_USER",
+      payload: { user: !!user },
+    });
+  }, [dispatch, user]);
+
   return (
     <>
       <Box
@@ -107,9 +115,10 @@ const Search = () => {
       >
         <TextField
           sx={{
-            borderRadius: "20px",
+            borderRadius: "24px",
             backgroundColor: "#F2F4F8",
             "& .MuiOutlinedInput-root": {
+              paddingRight: "6px !important",
               "& fieldset": {
                 border: "none",
               },
@@ -121,6 +130,7 @@ const Search = () => {
               },
             },
             "& .MuiInputBase-input": {
+              fontSize: "20px",
               height: "12px",
             },
             alignSelf: "center",
@@ -133,10 +143,9 @@ const Search = () => {
           fullWidth
           InputProps={{
             endAdornment: (
-              <SearchIcon
-                className={styles.searchIcon}
-                onClick={handleSearch}
-              />
+              <IconButton disabled={!!!username.trim()} onClick={handleSearch}>
+                <SearchIcon className={styles.searchIcon} />
+              </IconButton>
             ),
           }}
         />
@@ -148,9 +157,11 @@ const Search = () => {
             alignItems="center"
             justifyContent="center"
             width="100%"
-            padding="10px"
+            paddingTop="20px"
+            paddingX="30px"
             gap="10px"
             onClick={handleSelect}
+            sx={{ cursor: "pointer" }}
           >
             <Avatar
               sx={{ width: "52px", height: "52px" }}

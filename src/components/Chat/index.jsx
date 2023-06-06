@@ -12,7 +12,7 @@ const Chat = () => {
       height="100%"
       width="100%"
       flexDirection="column"
-      borderLeft="1px solid rgba(211, 211, 211, 0.5)"
+      borderLeft="3px solid rgba(211, 211, 211, 0.75)"
     >
       <ChatInfo />
       <Messages />

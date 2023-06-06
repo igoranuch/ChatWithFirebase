@@ -5,7 +5,7 @@ import Search from "./Search";
 
 const Sidebar = () => {
   return (
-    <Box display="flex" width="600px" height="100%" flexDirection="column">
+    <Box display="flex" minWidth="450px" height="100%" flexDirection="column">
       <Search />
       <Chats />
     </Box>

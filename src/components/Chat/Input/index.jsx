@@ -72,6 +72,9 @@ const Input = () => {
               border: "none",
             },
           },
+          "& .MuiInputBase-input": {
+            fontSize: "20px",
+          },
           "& .MuiOutlinedInput-root.Mui-focused": {
             "& fieldset": {
               borderRadius: "20px",

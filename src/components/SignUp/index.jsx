@@ -16,15 +16,15 @@ const SignUp = () => {
 
   const { currentUser } = useContext(AuthContext);
 
+  const styles = useStyles();
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && currentUser.displayName) {
       navigate("/");
     }
   }, [currentUser, navigate]);
-
-  const styles = useStyles();
 
   const formik = useFormik({
     initialValues: {

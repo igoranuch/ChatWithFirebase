@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import { ChatContext } from "../../../context/ChatContext";
 import PersonAddIcon from "@material-ui/icons//PersonAdd";
 import VideocamIcon from "@material-ui/icons//Videocam";
@@ -14,10 +14,11 @@ export default function ChatInfo() {
   return (
     <Box
       display="flex"
-      height="66px"
       borderBottom="1px solid rgba(211, 211, 211, 0.5)"
       alignItems="center"
-      paddingX="20px"
+      minHeight="66px"
+      width="100%"
+      paddingX="15px"
     >
       <Box
         display="flex"
@@ -27,9 +28,12 @@ export default function ChatInfo() {
         outline="none !important"
       >
         {data.user && !!Object.keys(data.user).length && (
-          <img className={styles.userImage} src={data.user?.photoURL} alt="" />
+          <Avatar
+            style={{ width: "44px", height: "44px" }}
+            src={data.user?.photoURL}
+          />
         )}
-        <Typography>{data.user?.displayName}</Typography>
+        <Typography variant="h5">{data.user?.displayName}</Typography>
       </Box>
       <Box
         display="flex"
@@ -39,9 +43,18 @@ export default function ChatInfo() {
         alignItems="center"
         gap="20px"
       >
-        <VideocamIcon className={styles.chatInfoIcon} />
-        <PersonAddIcon className={styles.chatInfoIcon} />
-        <MoreVertIcon className={styles.chatInfoIcon} />
+        <VideocamIcon
+          className={styles.chatInfoIcon}
+          style={{ width: "36px", height: "36px" }}
+        />
+        <PersonAddIcon
+          className={styles.chatInfoIcon}
+          style={{ width: "36px", height: "36px" }}
+        />
+        <MoreVertIcon
+          className={styles.chatInfoIcon}
+          style={{ width: "36px", height: "36px" }}
+        />
       </Box>
     </Box>
   );

@@ -9,6 +9,7 @@ export const ChatContextProvider = ({ children }) => {
   const INITIAL_STATE = {
     chatId: "null",
     user: {},
+    searchUser: false,
   };
 
   const chatReducer = (state, action) => {
@@ -25,6 +26,8 @@ export const ChatContextProvider = ({ children }) => {
       case "RESET_STATE":
         return { ...INITIAL_STATE };
 
+      case "SET_SEARCH_USER":
+        return { ...state, searchUser: action.payload.searchUser };
       default:
         return state;
     }

@@ -4,10 +4,12 @@ import { db } from "../../../firebase";
 import { ChatContext } from "../../../context/ChatContext";
 import { Box } from "@mui/material";
 import Message from "../Message";
+import useStyles from "../../styles";
 
 const Messages = () => {
   const messagesEndRef = useRef(null);
   const [messages, setMessages] = useState([]);
+  const styles = useStyles();
 
   const { data } = useContext(ChatContext);
 
@@ -27,29 +29,31 @@ const Messages = () => {
 
   return (
     <Box
-      backgroundColor="#F2F4F8"
       display="flex"
-      flexDirection="column"
-      height="100%"
+      justifyContent="center"
+      alignItems="center"
       width="100%"
-      flex="1"
-      flexWrap="nowrap"
-      overflow="auto"
-      ref={messagesEndRef}
-      padding="16px"
+      maxHeight="724px"
+      padding="10px"
+      overflow="hidden"
+      flexGrow="1"
     >
-      {messages &&
-        messages.map((message, index) => {
-          return (
-            <Message
-              message={message}
-              key={index}
-              isFirstMessageFromAuthor={
-                index === 0 || messages[index - 1].senderId !== message.senderId
-              }
-            />
-          );
-        })}
+      <Box className={styles.messagesContainer}>
+        {messages &&
+          messages.map((message, index) => {
+            return (
+              <Message
+                message={message}
+                key={index}
+                isFirstMessageFromAuthor={
+                  index === 0 ||
+                  messages[index - 1].senderId !== message.senderId
+                }
+              />
+            );
+          })}
+        <div ref={messagesEndRef} />
+      </Box>
     </Box>
   );
 };

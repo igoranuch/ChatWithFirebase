@@ -20,23 +20,59 @@ const useStyles = makeStyles(() =>
       zIndex: 9999,
     },
     userImage: {
-      backgroundColor: "white",
       height: "36px",
       width: "36px",
-      border: "0px !important",
       borderRadius: "50% !important",
       objectFit: "cover",
     },
-    chatimage: {
-      width: "32px",
-      height: "32px",
-    },
     searchIcon: { cursor: "pointer", color: "lightgrey" },
     chatInfoIcon: {
-      width: "32px",
-      height: "32px",
       color: "lightgrey",
       cursor: "pointer",
+    },
+    selected: {
+      backgroundColor: "rgba(211, 211, 211, 0.5)",
+    },
+    infoText: {
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      width: "250px",
+    },
+    chatText: {
+      flexGrow: 1,
+      overflow: "hidden",
+      wordWrap: "break-word",
+    },
+    sent: { flexDirection: "row-reverse" },
+    received: { flexDirection: "row" },
+    messagesContainer: {
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "nowrap",
+      padding: "20px",
+      height: "100%",
+      width: "100%",
+      overflow: "auto",
+      backgroundColor: "#F2F4F8",
+      borderRadius: "20px",
+      gap: "10px",
+      "&::-webkit-scrollbar": {
+        width: "6px",
+        borderRadius: "10px",
+      },
+      "&::-webkit-scrollbar-track": {
+        borderRadius: "10px",
+      },
+      "&::-webkit-scrollbar-thumb": {
+        backgroundColor: "rgb(210,210,210)",
+        borderRadius: "10px",
+      },
+    },
+    chatsContainer: {
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
     },
   })
 );
